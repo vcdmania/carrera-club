@@ -329,7 +329,7 @@ function renderLista(){
     d.innerHTML=`<div style="min-width:0"><div class="n">Carrera ${r.correlativo} ${badge}${luna}</div>
       <div class="rnm">${r.nombre||''}</div>
       <div class="t">${r.tipo||''} · ${r.n_caballos} ejemplares${r.indice_carrera?' · índice '+r.indice_carrera+nivDot(r.niv):''}</div></div>
-      <div class="right"><div class="hora">${r.hora||''}</div><div class="dist"><b>${r.distancia}</b><span> m</span></div></div>`;
+      <div class="right"><div class="hora">${r.hora||''}</div><div class="dist"><b>${r.distancia}</b><span> m</span></div>${r.superficie?`<div style="margin-top:3px;padding:1px 7px;border-radius:9px;display:inline-block;font-size:10px;font-weight:bold;letter-spacing:.5px;color:#fff;background:${r.superficie==='Pasto'?'#2e7d32':'#a1814f'}">${r.superficie.toUpperCase()}</div>`:''}</div>`;
     cont.appendChild(d);
   });
 }
@@ -558,10 +558,10 @@ function abrir(i){
   document.getElementById('toggle-all').textContent='Expandir';
   document.getElementById('lista').style.display='none';
   document.getElementById('detalle').classList.add('active');window.scrollTo(0,0);
-  document.getElementById('tb-title').innerHTML=`<b>Carrera ${actual.correlativo} · ${actual.hora||''}</b><span>${actual.distancia}m · ${actual.tipo||''}</span>`;
+  document.getElementById('tb-title').innerHTML=`<b>Carrera ${actual.correlativo} · ${actual.hora||''}</b><span>${actual.distancia}m${actual.superficie?' · '+actual.superficie:''} · ${actual.tipo||''}</span>`;
   const avisoLuz=actual.nocturna?`<div style="margin-top:6px;padding:6px 9px;background:#1a1a2e;border:1px solid #ffcf07;border-radius:7px;color:#ffcf07;font-size:12px">🌙 <b>Carrera nocturna</b> (luz artificial) — de noche hay más sorpresas: el motor y el mercado aciertan menos acá. Tómalo con más cautela.</div>`:'';
   document.getElementById('rb').innerHTML=`<div class="rn">${actual.nombre||'Carrera '+actual.correlativo}</div>
-    <div class="cond">${(actual.tipo||'').toUpperCase()}${actual.indice_carrera?' · <b style="color:#ffcf07">índice '+actual.indice_carrera+'</b>':''}${actual.condicion?' · '+actual.condicion:''}${actual.serie?' · serie '+actual.serie:''} · ${actual.distancia} Mts · ${actual.n_caballos} ejemplares · cód ${actual.id}</div>${(actual.retirados||[]).length?`<div style="margin-top:6px;padding:6px 9px;border:1px solid #c0392b;border-radius:7px;color:#e57373;font-size:12px">🚫 <b>Retirado${actual.retirados.length>1?'s':''}:</b> ${actual.retirados.map(h=>'#'+h.mandil+' '+h.nombre).join(' · ')}</div>`:''}${avisoLuz}`;
+    <div class="cond">${(actual.tipo||'').toUpperCase()}${actual.indice_carrera?' · <b style="color:#ffcf07">índice '+actual.indice_carrera+'</b>':''}${actual.condicion?' · '+actual.condicion:''}${actual.serie?' · serie '+actual.serie:''} · ${actual.distancia} Mts${actual.superficie?' · <b style="color:'+(actual.superficie==='Pasto'?'#66bb6a':'#d9b779')+'">'+actual.superficie.toUpperCase()+'</b>':''} · ${actual.n_caballos} ejemplares · cód ${actual.id}</div>${(actual.retirados||[]).length?`<div style="margin-top:6px;padding:6px 9px;border:1px solid #c0392b;border-radius:7px;color:#e57373;font-size:12px">🚫 <b>Retirado${actual.retirados.length>1?'s':''}:</b> ${actual.retirados.map(h=>'#'+h.mandil+' '+h.nombre).join(' · ')}</div>`:''}${avisoLuz}`;
   render();
 }
 
